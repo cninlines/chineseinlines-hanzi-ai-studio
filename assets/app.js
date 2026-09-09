@@ -545,41 +545,21 @@
         src.textContent = "霞鹜文楷 LXGW WenKai";
         continue;
       }
-      // 优先使用汉典字源 SVG（fetch+内联，避免 <img> 热链被阻/CORS）
+      // 优先使用汉典字源 SVG（<img> + no-referrer 绕过防盗链，最省资源）
       const hscript = HAN_SCRIPT[p.key];
       const hanUrl = hscript ? (hanEntry[hscript] || null) : null;
       if (hanUrl) {
+        const img = document.createElement("img");
+        img.className = "han-glyph";
+        img.alt = p.name + " · 汉典";
+        img.loading = "lazy";
+        img.referrerPolicy = "no-referrer";   // 关键：汉典防盗链检查 Referer，设为 no-referrer 绕过
         src.textContent = "汉典字源 · zdic.net";
-        box.innerHTML = `<div class="gt-miss">字形加载中…</div>`;
-        let svgText = null;
-        // 通道 1：fetch + no-cors（不校验响应头），取回 SVG 文本内联显示
-        try {
-          const res = await fetch(hanUrl, { mode: "no-cors" });
-          svgText = await res.text();
-        } catch (_) { /* 网络/跨域问题 */ }
-        if (svgText && /<svg[\s\S]*<\/svg>/i.test(svgText)) {
-          // 规范化：去掉原 fill、强制 currentColor
-          svgText = svgText
-            .replace(/\sfill="(?!none)[^"]*"/gi, "")
-            .replace(/<svg([^>]*)>/i, (m, attrs) => {
-              if (/fill=/i.test(attrs)) return m;
-              return `<svg${attrs} fill="currentColor">`;
-            });
-          box.innerHTML = svgText;
-          src.textContent = "汉典字源 · zdic.net";
-          continue;
-        }
-        // 通道 2：fetch 不到时，<img> 兜底（部分浏览器允许加载被 fetch 拦截的图片）
-        await new Promise((res2) => {
-          const img = new Image();
-          img.className = "han-glyph";
-          img.alt = p.name + " · 汉典";
-          img.onload = () => { src.textContent = "汉典字源 · zdic.net"; res2(); };
-          img.onerror = () => { tryLocalGlyph(box, src, ch, p, cp).then(res2); };
-          box.innerHTML = "";
-          box.appendChild(img);
-          img.src = hanUrl;
-        });
+        img.onload  = () => { src.textContent = "汉典字源 · zdic.net"; };
+        img.onerror = () => { tryLocalGlyph(box, src, ch, p, cp); };
+        box.innerHTML = "";
+        box.appendChild(img);
+        img.src = hanUrl;
         continue;
       }
       await tryLocalGlyph(box, src, ch, p, cp);
