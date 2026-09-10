@@ -117,7 +117,9 @@ const REL_LABEL = {
   phonetic_series:        { full: "同声符字族", abbr: "PHON-FAM", cls: "t-pho"  },
   semantic_extension:     { full: "意义引申", abbr: "EXTEND",    cls: "t-pho"  },
   loan_graph:             { full: "通假假借", abbr: "LOAN",      cls: "t-core" },
-  origin:                 { full: "本源",     abbr: "CORE",      cls: "t-core" }
+  origin:                 { full: "本源",     abbr: "CORE",      cls: "t-core" },
+  same_radical:           { full: "同部首",   abbr: "RADICAL",   cls: "t-comp" },
+  contains_component:     { full: "构件包含", abbr: "CONTAINS",  cls: "t-cog"  }
 };
 
 /* ---------- 预设字（一键 chips） ---------- */

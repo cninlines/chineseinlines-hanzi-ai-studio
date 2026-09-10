@@ -38,6 +38,10 @@
         <span class="nav-ico">联</span><span class="sb-label">字际系联</span>
         <span class="nav-badge">固定</span>
       </div>
+      <div class="nav-item" data-route="game">
+        <span class="nav-ico">遊</span><span class="sb-label">字源游戏</span>
+        <span class="nav-badge">本地</span>
+      </div>
 
       <div class="sb-group">AI 创编</div>
       <div class="nav-item" data-route="author">
@@ -126,6 +130,11 @@
                 <div class="qc-t">展开字际系联</div>
                 <div class="qc-d">历时同源、构件孳乳、形声孳乳网络图谱</div>
               </div>
+              <div class="quick-card" data-go="game">
+                <div class="qc-ico">遊</div>
+                <div class="qc-t">字源游戏练习</div>
+                <div class="qc-d">古字猜谜、部件拼字、声符字族 · 全本地不耗 Token</div>
+              </div>
               <div class="quick-card" data-go="author">
                 <div class="qc-ico">✎</div>
                 <div class="qc-t">AI 文化故事创编</div>
@@ -178,6 +187,9 @@
       </section>
 
       <!-- ---------- 视图：多场景创编 ---------- -->
+      <section class="view" id="view-game">
+        <div class="wrap" id="gameBody"></div>
+      </section>
       <section class="view" id="view-author">
         <div class="page-hd">
           <h2>多场景 AI 创编</h2>
@@ -410,8 +422,14 @@
 <script src="assets/glyph-index.js"></script>
 <script src="assets/ob-index.js"></script>
 <script src="assets/han-index.js"></script>
+<script src="assets/glyph-chars.js"></script>
 <script src="assets/data.js"></script>
 <script src="assets/charlib.js"></script>
+<script src="assets/shuowen.js"></script>
+<script src="assets/simptrad.js"></script>
+<script src="assets/cultural.js"></script>
+<script src="assets/comp-index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5.0/dist/hanzi-writer.min.js"></script>
 <script src="assets/prompts.js"></script>
 <script src="assets/api.js"></script>
 <script src="assets/app.js"></script>

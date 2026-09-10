@@ -52,6 +52,7 @@
 
   /* ==================== 声符字族索引（由 CHARLIB 构建） ==================== */
   let PHON_FAM = {};
+  let RAD_INDEX = {};
 
   /* ==================== 字形懒加载 ==================== */
   const glyphCache = new Map();
@@ -145,6 +146,7 @@
     dash:     { title: "工作台总览", sub: "多场景 AI 创编工作台" },
     etym:     { title: "字源解析",   sub: "本义考据与五体字形演变" },
     lineage:  { title: "字际系联",   sub: "字族关系网络" },
+    game:     { title: "字源游戏",   sub: "古字猜谜 · 部件拼字 · 声符字族" },
     author:   { title: "多场景创编", sub: "文化故事 / 动画脚本" },
     history:  { title: "生成历史",   sub: "API 调用记录与提示词回溯" },
     tpl:      { title: "Prompt 模板库", sub: "标准化多语种提示词" },
@@ -165,6 +167,7 @@
     if (route === "dash") renderDash();
     if (route === "etym") renderEtym();
     if (route === "lineage") renderLineage();
+    if (route === "game") renderGame();
     if (route === "history") renderHistoryView();
     if (route === "tpl") renderTpl();
     if (route === "perf") renderPerf();
@@ -193,8 +196,12 @@
 
     // 构建声符字族索引：声符字符 -> 同声符字列表
     PHON_FAM = {};
+    RAD_INDEX = {};
     const _cl = window.CHARLIB || {};
-    for (const k in _cl) { const p = _cl[k].pho; if (p) { (PHON_FAM[p] = PHON_FAM[p] || []).push(k); } }
+    for (const k in _cl) {
+      const p = _cl[k].pho; if (p) { (PHON_FAM[p] = PHON_FAM[p] || []).push(k); }
+      const r = _cl[k].rad; if (r) { (RAD_INDEX[r] = RAD_INDEX[r] || []).push(k); }
+    }
 
     go("dash");
     loadDemo();
@@ -432,6 +439,27 @@
       </div>
 
       <div class="sect">
+        <div class="sect-hd">
+          <h3>笔顺演示 <span class="sh-note">Stroke Order</span></h3>
+          <div class="sh-right"><span class="src-tag ai">hanzi-writer · CDN</span></div>
+        </div>
+        <div class="sect-bd">
+          <div class="stroke-wrap">
+            <div id="strokeCanvas" class="stroke-canvas"></div>
+            <div class="stroke-side">
+              <p class="text-sm text-muted" id="strokeMeta" style="margin:0 0 10px">—</p>
+              <div class="stroke-ctrl">
+                <button class="btn btn-sm" id="strokePlay">▶ 播放笔顺</button>
+                <button class="btn btn-sm btn-ghost" id="strokeAnim">↻ 依次描画</button>
+                <button class="btn btn-sm btn-ghost" id="strokeQuiz">✎ 描红练习</button>
+              </div>
+              <p class="gt-note" style="margin-top:10px">笔顺数据源自 hanzi-writer-data（CC BY-SA 4.0）。繁体溯源时演示正体笔顺。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sect">
         <div class="sect-hd"><h3>本义与六书</h3><div class="sh-right">${srcTag}</div></div>
         <div class="sect-bd">
           <div class="etymo-card">
@@ -465,12 +493,28 @@
           <div class="grid-2">${(e.components || []).map(c => `
             <div class="card acc-cin"><h4>${esc(c.part)} · <span class="text-muted" style="font-weight:400">${esc(c.role)}</span></h4>
             <p>${esc(c.gloss)}</p></div>`).join("") || `<p class="text-sm text-muted">暂无构件数据</p>`}</div>
+          ${e.traditional ? `
+          <div class="sec-title mt-16">繁体溯源 <span class="st-note">Traditional Form</span></div>
+          <div class="card acc-ind trad-card"><div class="trad-line">
+            <span class="big-glyph" style="font-size:36px">${esc(ch)}</span>
+            <span class="trad-arrow">→</span>
+            <span class="big-glyph" style="font-size:36px">${esc(e.traditional)}</span>
+          </div>
+          <p class="text-sm text-muted" style="margin-top:10px">「${esc(ch)}」为「${esc(e.traditional)}」的简化字。</p></div>` : ""}
+          ${e.shuowen ? `
+          <div class="sec-title mt-16">《说文解字》 <span class="st-note">Shuōwén Jiězì · ${esc(e.shuowen.sixBooks || "")}</span></div>
+          <div class="card acc-cin"><p class="font-serif-cn" style="line-height:1.95;font-size:15px">${esc(e.shuowen.shuowen || e.shuowen.summary || "")}</p></div>` : ""}
           <div class="sec-title mt-16">字书佐证 <span class="st-note">Philological Evidence</span></div>
           <div class="card acc-gold"><p class="font-serif-cn">${esc(e.citation || "—")}</p></div>
+          ${e.cultural && ((e.cultural.allusions || []).length || (e.cultural.words || []).length) ? `
+          <div class="sec-title mt-16">文化典故 <span class="st-note">Cultural Allusions</span></div>
+          ${(e.cultural.allusions || []).slice(0, 4).map(a => `<div class="card acc-gold" style="margin-bottom:8px"><p class="font-serif-cn" style="line-height:1.7">${esc(a)}</p></div>`).join("")}
+          <div class="grid-2" style="margin-top:10px">${(e.cultural.words || []).slice(0, 6).map(w => `<div class="card acc-ind"><p>${esc(w)}</p></div>`).join("")}</div>` : ""}
         </div>
       </div>`;
 
-    loadGlyphTimeline(ch);
+    loadGlyphTimeline(ch, e.traditional || null);
+    initStroke(ch, e.traditional || null);
   }
 
   // 黑块检测：填充型字形若渲染后近全黑(>75%)，判定为异常字形，隐藏并提示，避免出现"一大片黑色"
@@ -533,16 +577,19 @@
     }
   }
 
-  async function loadGlyphTimeline(ch) {
-    const cp = ch.codePointAt(0).toString(16).toUpperCase().padStart(4, "0");
+  async function loadGlyphTimeline(ch, trad) {
+    // 古文字（甲金篆）字形属于繁体正体：凡有繁体，先按正体取字形
+    const g = trad || ch;
+    const cp = g.codePointAt(0).toString(16).toUpperCase().padStart(4, "0");
     const hanIdx = window.HAN_INDEX || {};
-    const hanEntry = hanIdx[ch] || {};
+    const hanEntry = hanIdx[g] || hanIdx[ch] || {};
     for (const p of PERIODS) {
       const box = $("gt-" + p.key), src = $("gts-" + p.key);
       if (!box) continue;
       if (p.key === "regular") {
-        box.innerHTML = `<span class="gt-fallback">${esc(ch)}</span>`;
-        src.textContent = "霞鹜文楷 LXGW WenKai";
+        box.innerHTML = `<span class="gt-fallback">${esc(ch)}</span>${
+          trad ? `<span class="gt-trad-mark" title="繁体正体">${esc(trad)}</span>` : ""}`;
+        src.textContent = trad ? "简化字 → 正体对照" : "霞鹜文楷 LXGW WenKai";
         continue;
       }
       // 优先使用汉典字源 SVG（<img> + no-referrer 绕过防盗链，最省资源）
@@ -556,14 +603,281 @@
         img.referrerPolicy = "no-referrer";   // 关键：汉典防盗链检查 Referer，设为 no-referrer 绕过
         src.textContent = "汉典字源 · zdic.net";
         img.onload  = () => { src.textContent = "汉典字源 · zdic.net"; };
-        img.onerror = () => { tryLocalGlyph(box, src, ch, p, cp); };
+        img.onerror = () => { tryLocalGlyph(box, src, g, p, cp); };
         box.innerHTML = "";
         box.appendChild(img);
         img.src = hanUrl;
         continue;
       }
-      await tryLocalGlyph(box, src, ch, p, cp);
+      await tryLocalGlyph(box, src, g, p, cp);
     }
+  }
+
+  /* ==================== 视图：字源游戏 ==================== */
+  const GAME_TABS = [
+    { key: "glyph", name: "古字猜谜", note: "看甲骨金文猜今字" },
+    { key: "build", name: "部件拼字", note: "按结构拼出目标字" },
+    { key: "series", name: "声符字族", note: "辨识同声符字族" }
+  ];
+  const GAME = { tab: "glyph", score: 0, round: 0, answer: null, picked: [], state: {} };
+
+  const rnd = (a) => a[Math.floor(Math.random() * a.length)];
+  const shuffle = (a) => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+
+  // 题库：有早期字形且结构字库收录的字
+  let QUIZ_POOL = null;
+  function buildQuizPool() {
+    if (QUIZ_POOL) return QUIZ_POOL;
+    const HI = window.HAN_INDEX || {}, CL = window.CHARLIB || {}, GC = window.GLYPH_CHARS || {};
+    QUIZ_POOL = Object.keys(HI).filter(c => {
+      const e = HI[c];
+      const hasAncient = !!(e.jiaguwen || e.jinwen || e.xiaozhuan);
+      const hasLocal = GC[c] && (GC[c].includes("oracle") || GC[c].includes("bronze") || GC[c].includes("seal"));
+      return (hasAncient || hasLocal) && CL[c] && /^[\u4e00-\u9fa5]$/.test(c);
+    });
+    return QUIZ_POOL;
+  }
+
+  function renderGame() {
+    const body = $("gameBody");
+    if (!body) return;
+    body.innerHTML = `
+      <div class="sect">
+        <div class="sect-hd">
+          <h3>字源游戏 <span class="sh-note">Local · 不消耗 Token</span></h3>
+          <div class="sh-right">
+            <span class="badge badge-ben">回合 ${GAME.round}</span>
+            <span class="badge badge-liu">答对 ${GAME.score}</span>
+            <button class="btn btn-sm" id="gameReset" style="margin-left:6px">重置</button>
+          </div>
+        </div>
+        <div class="sect-bd">
+          <div class="game-tabs">${GAME_TABS.map(t => `
+            <button class="g-tab${GAME.tab === t.key ? " active" : ""}" data-gt="${t.key}">${t.name}
+              <span class="g-tab-note">${t.note}</span></button>`).join("")}
+          </div>
+          <div id="gameStage"></div>
+        </div>
+      </div>`;
+    qsa(".g-tab", body).forEach(btn => btn.onclick = () => { GAME.tab = btn.dataset.gt; GAME.state = {}; renderGame(); });
+    const rs = $("gameReset"); if (rs) rs.onclick = () => { GAME.score = 0; GAME.round = 0; GAME.state = {}; renderGame(); };
+    if (GAME.tab === "glyph") newGlyphRound();
+    if (GAME.tab === "build") newBuildRound();
+    if (GAME.tab === "series") newSeriesRound();
+  }
+
+  function gameCard(inner, footNote) {
+    return `<div class="game-card">${inner}</div>${footNote ? `<p class="gt-note">${footNote}</p>` : ""}`;
+  }
+
+  /* ---- 游戏一：古字猜谜 ---- */
+  function newGlyphRound() {
+    const stage = $("gameStage"); if (!stage) return;
+    const pool = buildQuizPool();
+    if (!pool.length) { stage.innerHTML = gameCard("<p class='text-muted'>字形题库不可用。</p>"); return; }
+    const target = rnd(pool);
+    const HI = window.HAN_INDEX || {}, GC = window.GLYPH_CHARS || {}, CL = window.CHARLIB || {};
+    const e = HI[target] || {};
+    const periods = (GC[target] || []);
+    let url = null, pname = "";
+    if (e.jiaguwen) { url = e.jiaguwen; pname = "甲骨文"; }
+    else if (e.jinwen) { url = e.jinwen; pname = "金文"; }
+    else if (e.xiaozhuan) { url = e.xiaozhuan; pname = "小篆"; }
+    const localPeriod = url ? null : (periods.includes("oracle") ? "oracle" : (periods.includes("bronze") ? "bronze" : "seal"));
+    if (!url && !localPeriod) { setTimeout(newGlyphRound, 0); return; }
+
+    // 干扰项：优先同部首，其次随机
+    let opts = [target];
+    const sameRad = (RAD_INDEX[(CL[target] || {}).rad] || []).filter(c => c !== target && /^[\u4e00-\u9fa5]$/.test(c));
+    while (opts.length < 4 && sameRad.length) { const c = rnd(sameRad); if (!opts.includes(c)) opts.push(c); }
+    while (opts.length < 4) { const c = rnd(pool); if (!opts.includes(c)) opts.push(c); }
+    opts = shuffle(opts);
+    GAME.round++;
+    GAME.answer = target; GAME.state = { kind: "glyph", url, pname, localPeriod, opts };
+
+    const fig = url
+      ? `<img class="quiz-fig" src="${url}" alt="古文字形" referrerpolicy="no-referrer" loading="lazy">`
+      : `<span class="quiz-fig-fallback">${esc(target)}<span class="q-note">暂用今字字形</span></span>`;
+    stage.innerHTML = gameCard(`
+      <div class="game-fig-box">
+        ${fig}
+        <div class="game-fig-meta"><b>${esc(pname || "古文字形")}</b> · 请选出对应的今字</div>
+      </div>
+      <div class="sec-title mt-16">候选字形</div>
+      <div class="game-opts">${opts.map(c => `<button class="opt-btn font-serif-cn" data-opt="${esc(c)}">${esc(c)}</button>`).join("")}</div>
+      <div class="game-fb" id="gameFb"></div>`,
+      "字形取自汉典字源（zdic.net）与本地开源字形库，均为离线缓存。" );
+    qsa(".opt-btn", stage).forEach(b => b.onclick = () => judgeGlyph(b.dataset.opt));
+  }
+
+  function judgeGlyph(pick) {
+    const fb = $("gameFb"); if (!fb) return;
+    const ok = pick === GAME.answer;
+    if (ok) GAME.score++;
+    const t = GAME.answer, SW = window.SHUOWEN || {}, CL = window.CHARLIB || {};
+    const sw = (SW[t] && SW[t].shuowen) ? SW[t].shuowen.slice(0, 60) : "";
+    fb.className = "game-fb " + (ok ? "ok" : "no");
+    fb.innerHTML = `${ok ? "✓ 答对" : "✗ 正确答案：<b class='font-serif-cn'>" + esc(t) + "</b>"}
+      <div class="fb-detail">拼音 ${esc((CL[t] || {}).py || "—")} · 部首 ${esc((CL[t] || {}).rad || "—")} · 六书 ${esc((CL[t] || {}).liu || "—")}
+      ${sw ? `<br>《说文》：${esc(sw)}…` : ""}</div>
+      <button class="btn btn-sm" id="nextRound" style="margin-top:8px">下一题 →</button>`;
+    qsa(".opt-btn", $("gameStage")).forEach(b => { b.disabled = true; if (b.dataset.opt === GAME.answer) b.classList.add("correct"); else if (b.dataset.opt === pick) b.classList.add("wrong"); });
+    const nx = $("nextRound"); if (nx) nx.onclick = () => { if (GAME.tab === "glyph") newGlyphRound(); };
+  }
+
+  /* ---- 游戏二：部件拼字 ---- */
+  function newBuildRound() {
+    const stage = $("gameStage"); if (!stage) return;
+    const CL = window.CHARLIB || {};
+    const pool = Object.keys(CL).filter(c => /^[\u4e00-\u9fa5]$/.test(c) &&
+      (CL[c].comp || []).length >= 2 && (CL[c].comp || []).length <= 4 && CL[c].st);
+    if (!pool.length) { stage.innerHTML = gameCard("<p class='text-muted'>构件题库不可用。</p>"); return; }
+    let target = null;
+    for (let i = 0; i < 60 && !target; i++) {
+      const c = rnd(pool);
+      const parts = (CL[c].comp || []).map(x => x[0]);
+      if (new Set(parts).size === parts.length && parts.every(p => /^[\u4e00-\u9fa5]$/.test(p))) target = c;
+    }
+    if (!target) { setTimeout(newBuildRound, 0); return; }
+    const lib = CL[target];
+    const parts = (lib.comp || []).map(x => x[0]);
+    // 干扰构件
+    const all = Object.keys(window.COMP_INDEX || {}).filter(p => /^[\u4e00-\u9fa5]$/.test(p) && !parts.includes(p));
+    const distract = [];
+    while (distract.length < 3 && all.length) { const p = rnd(all); if (!distract.includes(p)) distract.push(p); }
+    GAME.round++; GAME.answer = target; GAME.picked = [];
+    GAME.state = { kind: "build", parts, distract, tiles: shuffle(parts.concat(distract)) };
+
+    stage.innerHTML = gameCard(`
+      <div class="game-prompt">
+        <div class="gp-label">目标字读音与释义</div>
+        <div class="gp-py">${esc(lib.py || "—")} · ${esc(lib.rad || "")}部</div>
+        <div class="gp-gloss">${esc(lib.gl || "（无英文释义）")}</div>
+        <span class="badge badge-liu">结构：${esc(lib.st || "—")}</span>
+        <span class="badge badge-ben">需选出 ${parts.length} 个构件</span>
+      </div>
+      <div class="sec-title mt-16">构件候选（点击选入）</div>
+      <div class="game-opts">${GAME.state.tiles.map((p, i) => `<button class="opt-btn tile-btn font-serif-cn" data-idx="${i}">${esc(p)}</button>`).join("")}</div>
+      <div class="mt-12"><span class="text-sm text-muted">已选：</span><span id="pickRow" class="pick-row"></span></div>
+      <div class="mt-12"><button class="btn btn-sm" id="buildCheck">✓ 校验</button></div>
+      <div class="game-fb" id="gameFb"></div>`,
+      "构件数据来自 makemeahanzi 开源字库（CC BY-SA 4.0）。");
+    qsa(".tile-btn", stage).forEach(b => b.onclick = () => toggleTile(Number(b.dataset.idx)));
+    const ck = $("buildCheck"); if (ck) ck.onclick = judgeBuild;
+  }
+
+  function toggleTile(i) {
+    const st = GAME.state; if (!st || st.kind !== "build") return;
+    const v = st.tiles[i];
+    const at = GAME.picked.indexOf(i);
+    if (at >= 0) GAME.picked.splice(at, 1); else GAME.picked.push(i);
+    qsa(".tile-btn", $("gameStage")).forEach(b => b.classList.toggle("sel", GAME.picked.includes(Number(b.dataset.idx))));
+    const sel = GAME.picked.map(k => st.tiles[k]);
+    const row = $("pickRow");
+    if (row) row.innerHTML = sel.length ? sel.map(p => `<span class="pick-chip font-serif-cn">${esc(p)}</span>`).join("") : `<span class="text-muted text-sm">尚未选择</span>`;
+  }
+
+  function judgeBuild() {
+    const fb = $("gameFb"); if (!fb) return;
+    const st = GAME.state;
+    const sel = GAME.picked.map(k => st.tiles[k]);
+    const ok = sel.length === st.parts.length && st.parts.every(p => sel.includes(p));
+    if (ok) GAME.score++;
+    fb.className = "game-fb " + (ok ? "ok" : "no");
+    fb.innerHTML = `${ok ? "✓ 拼合正确" : "✗ 不正确"}
+      <div class="fb-detail">正确答案：<b class="font-serif-cn">${esc(GAME.answer)}</b> ＝ ${st.parts.map(p => esc(p)).join(" ＋ ")}</div>
+      <button class="btn btn-sm" id="nextRound" style="margin-top:8px">下一题 →</button>`;
+    const nx = $("nextRound"); if (nx) nx.onclick = () => { if (GAME.tab === "build") newBuildRound(); };
+  }
+
+  /* ---- 游戏三：声符字族 ---- */
+  function newSeriesRound() {
+    const stage = $("gameStage"); if (!stage) return;
+    const fams = Object.keys(PHON_FAM).filter(p =>
+      /^[\u4e00-\u9fa5]$/.test(p) && PHON_FAM[p].length >= 4 &&
+      PHON_FAM[p].every(c => /^[\u4e00-\u9fa5]$/.test(c)));
+    if (!fams.length) { stage.innerHTML = gameCard("<p class='text-muted'>声符题库不可用。</p>"); return; }
+    const pho = rnd(fams), members = PHON_FAM[pho];
+    const answer = rnd(members);
+    // 干扰项：其他声符字族成员
+    const others = [];
+    for (let i = 0; i < 40 && others.length < 3; i++) {
+      const m = rnd(PHON_FAM[rnd(fams.filter(f => f !== pho))]);
+      const c = rnd(m);
+      if (c !== answer && !members.includes(c) && !others.includes(c)) others.push(c);
+    }
+    const opts = shuffle([answer].concat(others));
+    GAME.round++; GAME.answer = answer;
+    GAME.state = { kind: "series", opts, pho, members };
+
+    stage.innerHTML = gameCard(`
+      <div class="game-prompt">
+        <div class="gp-label">下列哪个字属于以「<b class="font-serif-cn">${esc(pho)}</b>」为声符的字族？</div>
+        <div class="gp-py">同族共 ${members.length} 字</div>
+      </div>
+      <div class="sec-title mt-16">候选字</div>
+      <div class="game-opts">${opts.map(c => `<button class="opt-btn font-serif-cn" data-opt="${esc(c)}">${esc(c)}</button>`).join("")}</div>
+      <div class="game-fb" id="gameFb"></div>`,
+      "声符索引由 makemeahanzi 结构字库推导，反映形声系统的孳乳关系。");
+    qsa(".opt-btn", stage).forEach(b => b.onclick = () => judgeSeries(b.dataset.opt));
+  }
+
+  function judgeSeries(pick) {
+    const fb = $("gameFb"); if (!fb) return;
+    const ok = pick === GAME.answer;
+    if (ok) GAME.score++;
+    const st = GAME.state, CL = window.CHARLIB || {};
+    fb.className = "game-fb " + (ok ? "ok" : "no");
+    fb.innerHTML = `${ok ? "✓ 答对" : "✗ 不正确"}
+      <div class="fb-detail">声符「${esc(st.pho)}」字族成员：${st.members.slice(0, 12).map(c => `<span class="pick-chip font-serif-cn">${esc(c)}</span>`).join(" ")}
+      ${((CL[GAME.answer] || {}).py) ? `<br>「${esc(GAME.answer)}」读音 ${esc(CL[GAME.answer].py)}` : ""}</div>
+      <button class="btn btn-sm" id="nextRound" style="margin-top:8px">下一题 →</button>`;
+    qsa(".opt-btn", $("gameStage")).forEach(b => { b.disabled = true; if (b.dataset.opt === GAME.answer) b.classList.add("correct"); else if (b.dataset.opt === pick) b.classList.add("wrong"); });
+    const nx = $("nextRound"); if (nx) nx.onclick = () => { if (GAME.tab === "series") newSeriesRound(); };
+  }
+
+  /* ==================== 笔顺演示（hanzi-writer · CDN 懒加载） ==================== */
+  let STROKE = null;
+  async function initStroke(ch, trad) {
+    const wrap = $("strokeCanvas"), meta = $("strokeMeta");
+    if (!wrap) return;
+    wrap.innerHTML = ""; STROKE = null;
+    const HW = window.HanziWriter;
+    if (!HW) {
+      wrap.innerHTML = `<span class="stroke-offline">笔顺库未加载<br><span class="stroke-offline-sub">联网后自动启用</span></span>`;
+      if (meta) meta.textContent = "离线环境或 CDN 不可达时暂不可用（不影响其余功能）。";
+      return;
+    }
+    const cands = Array.from(new Set([trad, ch].filter(Boolean)));
+    let target = null;
+    for (const c of cands) {
+      try { await HW.loadCharacterData(c); target = c; break; } catch (_) { /* 换候选 */ }
+    }
+    if (!target) {
+      wrap.innerHTML = `<span class="stroke-offline">该字暂无笔顺数据</span>`;
+      if (meta) meta.textContent = "—";
+      return;
+    }
+    try {
+      STROKE = HW.create(wrap, target, {
+        width: 170, height: 170, padding: 12,
+        showOutline: true, showCharacter: true,
+        strokeColor: "#2F2A25", outlineColor: "#DFD7C9", radicalColor: "#C23B2A",
+        strokeAnimationSpeed: 1, delayBetweenStrokes: 280
+      });
+    } catch (_) {
+      wrap.innerHTML = `<span class="stroke-offline">笔顺初始化失败</span>`;
+      return;
+    }
+    if (meta) {
+      meta.textContent = target !== ch
+        ? `演示字形：${target}（「${ch}」的繁体正体笔顺）`
+        : `演示字形：${target}`;
+    }
+    const play = $("strokePlay"), loop = $("strokeAnim"), quiz = $("strokeQuiz");
+    if (play) play.onclick = () => STROKE && STROKE.animateCharacter();
+    if (loop) loop.onclick = () => STROKE && STROKE.loopCharacterAnimation();
+    if (quiz) quiz.onclick = () => STROKE && STROKE.quiz({ onComplete: () => { if (meta) meta.textContent = "描红完成，书写正确。"; } });
   }
 
   /* ==================== 视图：字际系联 ==================== */
@@ -583,21 +897,29 @@
 
   /* ==================== 本地兜底数据构造 ==================== */
   function localEtymology(c) {
-    const d = ETYMO_DICT[c];
+    // 繁体优先：若该字有繁体正体，先追溯繁体，用正体查《说文》/结构/字形
+    const trad = (window.SIMPTRAD || {})[c] || null;
+    const root = trad || c;
+    const SW = window.SHUOWEN || {}, CU = window.CULTURAL || {}, CL = window.CHARLIB || {};
+    const d = ETYMO_DICT[root] || ETYMO_DICT[c];
     if (d) {
       return {
-        char: c, pinyin: d.py, radical: (d.comp[0] || ["—"])[0],
+        char: c, root, traditional: trad,
+        pinyin: d.py, radical: (d.comp[0] || ["—"])[0],
         strokes: 0, hsk: 1, liushu: d.liu,
         original_meaning: d.ben, extended_meanings: [],
         components: d.comp.map(([part, gloss]) => ({ part, role: "构件", gloss })),
-        ids: IDS_MAP[c] || null,
-        citation: "据《说文解字》及甲金文字形推定。"
+        ids: IDS_MAP[root] || IDS_MAP[c] || null,
+        citation: "据《说文解字》及甲金文字形推定。",
+        shuowen: SW[root] || SW[c] || null,
+        cultural: CU[root] || CU[c] || null
       };
     }
-    const lib = (window.CHARLIB || {})[c];
+    const lib = CL[root] || CL[c];
     if (lib) {
       return {
-        char: c, pinyin: lib.py || "—", radical: lib.rad || "—", strokes: 0, hsk: 1,
+        char: c, root, traditional: trad,
+        pinyin: lib.py || "—", radical: lib.rad || "—", strokes: 0, hsk: 1,
         liushu: lib.liu || "待考", struct: lib.st || "",
         original_meaning: lib.gl ? ("（英文释义）" + lib.gl) : "本地字库暂未收录权威本义考据，以下为结构拆解。",
         extended_meanings: [],
@@ -606,13 +928,18 @@
         })),
         ids: lib.ids ? { seq: lib.ids, note: "结构：" + (lib.st || "—") } : null,
         citation: lib.gl ? "据 makemeahanzi 开源字库结构拆解与形声/会意判定推导，非《说文》权威考据。" : "—",
-        isLib: true
+        isLib: true,
+        shuowen: SW[root] || SW[c] || null,
+        cultural: CU[root] || CU[c] || null
       };
     }
     return {
-      char: c, pinyin: "—", radical: "—", strokes: 0, hsk: 1, liushu: "待考", struct: "",
+      char: c, root, traditional: trad,
+      pinyin: "—", radical: "—", strokes: 0, hsk: 1, liushu: "待考", struct: "",
       original_meaning: "本地字库暂未收录该字（可能为生僻字或扩展区字符）。",
-      extended_meanings: [], components: [], ids: null, citation: "—"
+      extended_meanings: [], components: [], ids: null, citation: "—",
+      shuowen: SW[root] || SW[c] || null,
+      cultural: CU[root] || CU[c] || null
     };
   }
 
@@ -644,6 +971,30 @@
               expansion_order: 2,
               explanation: `「${t}」与「${c}」共享声符「${pho}」，同属形声字族。`,
               evidence: "据开源字库声符索引推导", shared_feature: pho
+            });
+          });
+        }
+        // 同部首：同属某部
+        const rad = lib.rad;
+        if (rad && RAD_INDEX[rad]) {
+          RAD_INDEX[rad].filter(x => x !== c).slice(0, 10).forEach(t => {
+            rels.push({
+              target: t, type: "same_radical", relation_label: "同部首",
+              expansion_order: 3,
+              explanation: `「${t}」与「${c}」同属「${rad}」部。`,
+              evidence: "据部首索引推导", shared_feature: rad
+            });
+          });
+        }
+        // 同构件：当前字作为构件参与他字构形（COMP_INDEX 反查）
+        const compIdx = window.COMP_INDEX || {};
+        if (compIdx[c]) {
+          compIdx[c].filter(x => x !== c).slice(0, 10).forEach(t => {
+            rels.push({
+              target: t, type: "contains_component", relation_label: "构件包含",
+              expansion_order: 3,
+              explanation: `「${t}」以「${c}」为构件。`,
+              evidence: "据同构件索引推导", shared_feature: c
             });
           });
         }
