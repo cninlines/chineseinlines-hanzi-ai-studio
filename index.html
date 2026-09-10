@@ -1,399 +1,324 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="zh-CN" data-page-node-id="B98PdLP57UEkvJWgFEYbCp">
+<head data-page-node-id="OzHARndVZpVLLbnbzQuLEm">
+<meta charset="UTF-8" data-page-node-id="a8IopFENq7heXD7a1h8sr1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="WQLopvbhEWddsUgDAiNLCl">
 <title>字里行间 LINES · 多场景 AI 创编工作台</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" data-page-node-id="mvxfd23tLNffDyaSZbSt6l">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin data-page-node-id="0cgDz6agFhJk8ECWE8LBgw">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet" data-page-node-id="WnewcaaNVavTujCokJ1hGF">
 <!-- 霞鹜文楷 LXGW WenKai：覆盖现代汉字显示（按 unicode-range 分片按需加载，省算力）。来源 github.com/lxgw/LxgwWenKai (CC BY 4.0) -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.7.0/lxgwwenkai-regular.css" data-page-node-id="K8BkMC8F6AKrEfJ3NtvDQA">
+<link rel="stylesheet" href="assets/style.css" data-page-node-id="waafJTWWSUUOunH1yUWBmM">
 </head>
-<body>
+<body data-page-node-id="7oVTLXiLB0FwCMmFwNyg7X">
 
-<div class="app">
+<div class="app" data-page-node-id="3mpSNMEjmQkAp2z1oWbIwX">
 
   <!-- ===================== 侧边导航 ===================== -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sb-brand">
-      <div class="sb-seal">字</div>
-      <div class="sb-brand-txt">
-        <b>字里行间 LINES</b>
-        <span>AI AUTHORING STUDIO</span>
+  <aside class="sidebar" id="sidebar" data-page-node-id="WE2OJU4AyY805HnG9GZbAv">
+    <div class="sb-brand" data-page-node-id="c5FrhzfNfAIeUVfw8Q6TUT">
+      <div class="sb-seal" data-page-node-id="PS7ih8vFrY8namTsVR05PS">字</div>
+      <div class="sb-brand-txt" data-page-node-id="nsS5aOn3rP96nvIl4NNOsF">
+        <b data-page-node-id="mcqXzhiLCs2raz2AQ1tGK7">字里行间 LINES</b>
+        <span data-page-node-id="qFqgbCwvz6dqgAmNjFFBB5">AI AUTHORING STUDIO</span>
       </div>
     </div>
 
-    <nav class="sb-nav" id="sbNav">
-      <div class="sb-group">工作区</div>
-      <div class="nav-item active" data-route="dash">
-        <span class="nav-ico">◈</span><span class="sb-label">工作台总览</span>
+    <nav class="sb-nav" id="sbNav" data-page-node-id="2QUlFxXF5HJdlFfdtVF9Og">
+      <div class="sb-group" data-page-node-id="JE363N6MXEEKMWAahnlKLq">字源研习</div>
+      <div class="nav-item active" data-route="etym" data-page-node-id="cX1sfeAgswOw5Rgjo9fcFp">
+        <span class="nav-ico" data-page-node-id="EmXIAjv8Mui6NGA9hnrvy4">甲</span><span class="sb-label" data-page-node-id="oqA6aPwIOxizlP79S8RVuN">字源解析</span>
+        <span class="nav-badge" data-page-node-id="AF3FPkavDIlJcquanmTQPB">溯源 · 系联</span>
       </div>
-      <div class="nav-item" data-route="etym">
-        <span class="nav-ico">甲</span><span class="sb-label">字源解析</span>
-        <span class="nav-badge">固定</span>
-      </div>
-      <div class="nav-item" data-route="lineage">
-        <span class="nav-ico">联</span><span class="sb-label">字际系联</span>
-        <span class="nav-badge">固定</span>
-      </div>
-      <div class="nav-item" data-route="game">
-        <span class="nav-ico">遊</span><span class="sb-label">字源游戏</span>
-        <span class="nav-badge">本地</span>
+      <div class="nav-item" data-route="game" data-page-node-id="hamQdy73hTkM0J5FskDhia">
+        <span class="nav-ico" data-page-node-id="OH5moA7AhV8QBcAKJAwaz2">遊</span><span class="sb-label" data-page-node-id="YwqvrbLaALe9Epz8sVc0rD">字源游戏</span>
+        <span class="nav-badge" data-page-node-id="ujzGZAWUun5iITdMq5Gf6M">本地</span>
       </div>
 
-      <div class="sb-group">AI 创编</div>
-      <div class="nav-item" data-route="author">
-        <span class="nav-ico">✎</span><span class="sb-label">多场景创编</span>
-        <span class="nav-badge">API</span>
+      <div class="sb-group" data-page-node-id="bn6CPZpe3C9wREvfhKJ0j3">AI 创编</div>
+      <div class="nav-item" data-route="author" data-page-node-id="a84kWgCjsP8yBp4CdJVQbI">
+        <span class="nav-ico" data-page-node-id="kvHPgCDgaqB4WPH2EuUqWc">✎</span><span class="sb-label" data-page-node-id="BSSvwPp4Rb7mGOFLklLogk">多场景创编</span>
+        <span class="nav-badge" data-page-node-id="uAUQPCUAPNAayYpwAAp7Fl">API</span>
       </div>
-      <div class="nav-item" data-route="history">
-        <span class="nav-ico">⟲</span><span class="sb-label">生成历史</span>
-        <span class="nav-badge" id="navHistCount">0</span>
-      </div>
-
-      <div class="sb-group">资源与评测</div>
-      <div class="nav-item" data-route="tpl">
-        <span class="nav-ico">❖</span><span class="sb-label">Prompt 模板库</span>
-        <span class="nav-badge">120+</span>
-      </div>
-      <div class="nav-item" data-route="perf">
-        <span class="nav-ico">▤</span><span class="sb-label">性能评测</span>
-        <span class="nav-badge">固定</span>
+      <div class="nav-item" data-route="history" data-page-node-id="QxfyENyUITA4JcCdzPcVRL">
+        <span class="nav-ico" data-page-node-id="HtFEcrEBvsfVEtjf2e5QjL">⟲</span><span class="sb-label" data-page-node-id="GkS7eqJAxwzSWSEDTYhvMd">生成历史</span>
+        <span class="nav-badge" id="navHistCount" data-page-node-id="fAgi3VKmaEmVWGmCgkCGOZ">0</span>
       </div>
 
-      <div class="sb-group">系统</div>
-      <div class="nav-item" data-route="settings">
-        <span class="nav-ico">⚙</span><span class="sb-label">模型与设置</span>
+      <div class="sb-group" data-page-node-id="1R5xVkxQV1SyitAB1oX4iq">资源与评测</div>
+      <div class="nav-item" data-route="tpl" data-page-node-id="6yK4Fh6B3zeFMV6wU8E2TI">
+        <span class="nav-ico" data-page-node-id="DgerljwDZyf5SpZmRhFfcK">❖</span><span class="sb-label" data-page-node-id="eabGxul2JzVcZH4hHNAaGV">Prompt 模板库</span>
+        <span class="nav-badge" data-page-node-id="ngEJtMSatutkKbAcWbWCNl">120+</span>
+      </div>
+      <div class="nav-item" data-route="perf" data-page-node-id="VuxI0G2GB6KOAOu3ytBGeD">
+        <span class="nav-ico" data-page-node-id="fc9lIPhWEsSCrNb7ggmCE2">▤</span><span class="sb-label" data-page-node-id="Gq9nvr3qwhJGbRwEBBclWj">性能评测</span>
+        <span class="nav-badge" data-page-node-id="YvU6BodizQE1VjcdXKQ1o5">固定</span>
+      </div>
+
+      <div class="sb-group" data-page-node-id="FyG11Pkg4DxkPkHtF3BAnf">系统</div>
+      <div class="nav-item" data-route="settings" data-page-node-id="XizKYoIBBzQHEwMw8PXLBd">
+        <span class="nav-ico" data-page-node-id="6tVMs8UJHRBIEmg0Dlp0K8">⚙</span><span class="sb-label" data-page-node-id="lYrZDTJTbHUlUfPOnCRI3M">模型与设置</span>
       </div>
     </nav>
 
-    <div class="sb-foot">
-      <div class="sb-foot-note">
-        古文字字形 <b id="footGlyphCount">—</b> 字<br>
-        结构字库 <b id="footDictCount">—</b> 字
+    <div class="sb-foot" data-page-node-id="H0PNzzp2wKndy11CJadVo6">
+      <div class="sb-foot-note" data-page-node-id="TeenIk8DFm6EDktE2Oe4zJ">
+        古文字字形 <b id="footGlyphCount" data-page-node-id="fACnE6F7cBGfIifiHBtKB3">—</b> 字<br data-page-node-id="peqFpsbyxNQntNv3CmCXEN">
+        结构字库 <b id="footDictCount" data-page-node-id="1y1LXBkCpmgFNkkUvUJdG4">—</b> 字
       </div>
     </div>
   </aside>
 
   <!-- ===================== 右侧主列 ===================== -->
-  <div class="main-col">
+  <div class="main-col" data-page-node-id="vDeOCRmZo4TQkiAe8UeY4A">
 
     <!-- 应用栏 -->
-    <header class="appbar">
-      <div class="crumb">
-        <span class="cb-main" id="crumbMain">工作台总览</span>
-        <span class="cb-sep">/</span>
-        <span class="cb-sub" id="crumbSub">多场景 AI 创编工作台</span>
+    <header class="appbar" data-page-node-id="FKaC1zu3MDCaBy7AMFa98i">
+      <div class="crumb" data-page-node-id="GxSkuHnTCrnTuEuQVVbTz6">
+        <span class="cb-main" id="crumbMain" data-page-node-id="EjDBUv04U9rnR5EkRT7MlI">字源解析</span>
+        <span class="cb-sep" data-page-node-id="iUxd2uBk9voVFJaujhiQLH">/</span>
+        <span class="cb-sub" id="crumbSub" data-page-node-id="yxA4YGJcfPDLrjW8hSRYFV">繁体溯源 · 古文字形 · 字际系联</span>
       </div>
 
-      <div class="gchar">
-        <span class="gchar-ico">字</span>
-        <input type="text" id="charInput" placeholder="我" maxlength="4" value="我">
-        <span class="gchar-count" id="charCount">1/4</span>
+      <div class="gchar" data-page-node-id="QBOIkl3CZlZiFkUhyC7ABn">
+        <span class="gchar-ico" data-page-node-id="m1semDzycLBsq1qIWfhT8B">字</span>
+        <input type="text" id="charInput" placeholder="我" maxlength="4" value="我" data-page-node-id="BnNFzO6cC1HVREZ0qIPlpy">
+        <span class="gchar-count" id="charCount" data-page-node-id="5ai2kGFVQaygJcdU3DC5YG">1/4</span>
       </div>
 
-      <div class="status-pill" id="statusPill">
-        <span class="sp-dot"></span><span id="statusText">未配置模型</span>
+      <div class="status-pill" id="statusPill" data-page-node-id="qvxPuEXTJ5xUCvEIgMFe63">
+        <span class="sp-dot" data-page-node-id="djtCBY8t4VNwH9P3SipV3c"></span><span id="statusText" data-page-node-id="f3VpguXq6JRk7a1HdCal62">未配置模型</span>
       </div>
 
-      <button class="icon-btn" id="btnHist" title="生成历史">
-        ⟲<span class="dot-badge" id="histBadge" style="display:none">0</span>
+      <button class="icon-btn" id="btnHist" title="生成历史" data-page-node-id="xD1GYwq8tCL7cvHCovZgAn">
+        ⟲<span class="dot-badge" id="histBadge" style="display:none" data-page-node-id="uifcobaAxyHpkmHieCsQ7F">0</span>
       </button>
-      <button class="icon-btn" id="btnConfig" title="模型配置">⚙</button>
+      <button class="icon-btn" id="btnConfig" title="模型配置" data-page-node-id="akKIKVmyJewi5EMI1fyA7w">⚙</button>
     </header>
 
     <!-- 工作区 -->
-    <main class="workspace">
-
-      <!-- ---------- 视图：工作台总览 ---------- -->
-      <section class="view active" id="view-dash">
-        <div class="page-hd">
-          <h2>工作台总览</h2>
-          <p>当前字 <b class="font-serif-cn" id="dashChar">我</b> · 字源、系联与创编能力一览</p>
-        </div>
-
-        <div class="stat-grid" id="dashStats"></div>
-
-        <div class="sect">
-          <div class="sect-hd"><h3>快速开始</h3><span class="sh-note">Quick Actions</span></div>
-          <div class="sect-bd">
-            <div class="quick-grid">
-              <div class="quick-card" data-go="etym">
-                <div class="qc-ico">甲</div>
-                <div class="qc-t">查看字源解析</div>
-                <div class="qc-d">本义、六书、构件拆分、IDS 序列与五体字形演变</div>
-              </div>
-              <div class="quick-card" data-go="lineage">
-                <div class="qc-ico">联</div>
-                <div class="qc-t">展开字际系联</div>
-                <div class="qc-d">历时同源、构件孳乳、形声孳乳网络图谱</div>
-              </div>
-              <div class="quick-card" data-go="game">
-                <div class="qc-ico">遊</div>
-                <div class="qc-t">字源游戏练习</div>
-                <div class="qc-d">古字猜谜、部件拼字、声符字族 · 全本地不耗 Token</div>
-              </div>
-              <div class="quick-card" data-go="author">
-                <div class="qc-ico">✎</div>
-                <div class="qc-t">AI 文化故事创编</div>
-                <div class="qc-d">调用大模型生成双语故事、习题与课件</div>
-              </div>
-              <div class="quick-card" data-go="author" data-mode="script">
-                <div class="qc-ico">🎬</div>
-                <div class="qc-t">动画脚本创编</div>
-                <div class="qc-d">分镜脚本、角色设定与跨文化视觉适配</div>
-              </div>
-              <div class="quick-card" id="qcDemo">
-                <div class="qc-ico">▶</div>
-                <div class="qc-t">载入内置演示样例</div>
-                <div class="qc-d">「我」字族全套结果，无需调用 API 即可完整演示</div>
-              </div>
-              <div class="quick-card" data-go="history">
-                <div class="qc-ico">⟲</div>
-                <div class="qc-t">查看生成历史</div>
-                <div class="qc-d">回溯历次生成的故事、脚本与提示词</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="sect">
-          <div class="sect-hd">
-            <h3>最近生成</h3><span class="sh-note">Recent Runs</span>
-            <div class="sh-right"><span class="src-tag ai">API 调用记录</span></div>
-          </div>
-          <div class="sect-bd" id="dashRecent"></div>
-        </div>
-      </section>
+    <main class="workspace" data-page-node-id="aBfnGaA7jPaoTUv9CkLmrE">
 
       <!-- ---------- 视图：字源解析 ---------- -->
-      <section class="view" id="view-etym">
-        <div class="page-hd">
-          <h2>字源解析</h2>
-          <p>本义考据与五体字形演变 · 全部来自本地语料与开源字形库，<b>不消耗 Token</b></p>
+      <section class="view active" id="view-etym" data-page-node-id="7PhDbIGOssHC7cVeGqurPU">
+        <div class="page-hd" data-page-node-id="uEmv5n1DEGzOQ3ZY1RoekJ">
+          <h2 data-page-node-id="UtRMHOic5X4dvXSMjdvTiK">字源解析</h2>
+          <p data-page-node-id="jmrR7u7r4MDiZuYYD1ZqPU">先回归繁体正体与古文字形，再展开字际系联 · 全部来自本地语料与开源字形库，<b data-page-node-id="BFVRoIZM1CUbiyjk6ABpAm">不消耗 Token</b></p>
+          <div style="margin-top:10px"><button class="btn btn-sm btn-ghost" id="qcDemo">▶ 载入内置演示样例</button></div>
         </div>
-        <div id="etymBody"></div>
-      </section>
-
-      <!-- ---------- 视图：字际系联 ---------- -->
-      <section class="view" id="view-lineage">
-        <div class="page-hd">
-          <h2>字际系联</h2>
-          <p>历时同源 / 构件孳乳 / 形声孳乳关系网络 · 本地确定性输出，<b>不消耗 Token</b></p>
-        </div>
-        <div id="lineageBody"></div>
+        <div id="etymBody" data-page-node-id="YtiQkkjW0VTr2rujPHyh1l"></div>
+        <div id="lineageBody" data-page-node-id="PqVTu8QbM5RtjdqCPQmIyk"></div>
       </section>
 
       <!-- ---------- 视图：多场景创编 ---------- -->
-      <section class="view" id="view-game">
-        <div class="wrap" id="gameBody"></div>
+      <section class="view" id="view-game" data-page-node-id="wH586rDiinUjwtkcxndAOj">
+        <div class="wrap" id="gameBody" data-page-node-id="70wqHujO6PFT6I8iMoVBpm"></div>
       </section>
-      <section class="view" id="view-author">
-        <div class="page-hd">
-          <h2>多场景 AI 创编</h2>
-          <p>文化故事 / 动画脚本双模式 · 需调用大模型接口，结果自动存入生成历史</p>
+      <section class="view" id="view-author" data-page-node-id="JkjaXxk50Ff4Zty6HmkMZF">
+        <div class="page-hd" data-page-node-id="IfM4NER2tSQovT3z3Qh6Uq">
+          <h2 data-page-node-id="GWiuMrmInZYGX8y1o78dXi">多场景 AI 创编</h2>
+          <p data-page-node-id="F3B7a6YoXCAUMdXCRhjHOC">文化故事 / 动画脚本双模式 · 需调用大模型接口，结果自动存入生成历史</p>
         </div>
 
-        <div class="split">
+        <div class="split" data-page-node-id="V1ypYEQh62tu5HGRppnAob">
           <!-- 控制区 -->
-          <div>
-            <div class="sect">
-              <div class="sect-hd"><h3>创编模式</h3></div>
-              <div class="sect-bd">
-                <div class="mode-switch" id="modeSwitch">
-                  <div class="mode-card active" data-mode="story">
-                    <span class="mc-ico">📜</span>
-                    <div class="mc-t">文化故事创编</div>
-                    <div class="mc-d">字源本义 → 字族叙事<br>双语故事 + 习题 + 课件</div>
+          <div data-page-node-id="nBgXgC2rQovo8z7tbDSqOj">
+            <div class="sect" data-page-node-id="IIkAgfJR4T7m7pD3YahO5A">
+              <div class="sect-hd" data-page-node-id="rDGIwI9j95wPeqqAMGNaK7"><h3 data-page-node-id="86hgpLiNoCjsynGhWShgIC">创编模式</h3></div>
+              <div class="sect-bd" data-page-node-id="ltvbLA7sAyGQDrMxPjDJ59">
+                <div class="mode-switch" id="modeSwitch" data-page-node-id="NJ5lXiJJY7UzTBw9uXTDY4">
+                  <div class="mode-card active" data-mode="story" data-page-node-id="n04Q4ktjpWE1drcE3GhYIO">
+                    <span class="mc-ico" data-page-node-id="GNtabvrqvi1y7HbYMwSPQx">📜</span>
+                    <div class="mc-t" data-page-node-id="Xsy8IQeBLbgjgtllDv8xCl">文化故事创编</div>
+                    <div class="mc-d" data-page-node-id="pvbjfpl1B6g8DWZgilrYFY">字源本义 → 字族叙事<br data-page-node-id="7pOor3umjBICDIX6YaRpsf">双语故事 + 习题 + 课件</div>
                   </div>
-                  <div class="mode-card" data-mode="script">
-                    <span class="mc-ico">🎬</span>
-                    <div class="mc-t">动画脚本创编</div>
-                    <div class="mc-d">分镜剪辑脚本<br>角色设定 + 地域适配</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="sect">
-              <div class="sect-hd"><h3>教学适配参数</h3></div>
-              <div class="sect-bd">
-                <div class="field">
-                  <label>学习者 HSK 等级 <span class="hint">动态调控文本难度</span></label>
-                  <div class="slider-row">
-                    <input type="range" id="hskRange" min="1" max="6" value="3" step="1">
-                    <span class="hsk-badge" id="hskBadge">3 级</span>
-                  </div>
-                  <div class="hsk-desc" id="hskDesc"></div>
-                </div>
-
-                <div class="field">
-                  <label>目标语种 <span class="hint">双语叙事输出</span></label>
-                  <select id="langSel">
-                    <option value="English">English（英语）</option>
-                    <option value="Bahasa Indonesia">Bahasa Indonesia（印尼语）</option>
-                    <option value="ไทย">ไทย（泰语）</option>
-                    <option value="Tiếng Việt">Tiếng Việt（越南语）</option>
-                    <option value="日本語">日本語（日语）</option>
-                    <option value="한국어">한국어（韩语）</option>
-                    <option value="Русский">Русский（俄语）</option>
-                    <option value="العربية">العربية（阿拉伯语）</option>
-                    <option value="Español">Español（西班牙语）</option>
-                    <option value="Français">Français（法语）</option>
-                  </select>
-                </div>
-
-                <div class="field" id="regionField" style="display:none">
-                  <label>教学受众地域 <span class="hint">跨文化视觉适配</span></label>
-                  <select id="regionSel">
-                    <option value="东南亚">东南亚（新马泰印尼越菲）</option>
-                    <option value="东亚汉字文化圈">东亚汉字文化圈（日韩越）</option>
-                    <option value="欧美">欧美（北美 / 西欧）</option>
-                    <option value="中东">中东（海湾 / 北非）</option>
-                    <option value="拉美">拉美（巴西 / 西语区）</option>
-                    <option value="非洲">非洲（撒哈拉以南）</option>
-                  </select>
-                </div>
-
-                <div class="field">
-                  <label>同时产出模块</label>
-                  <div class="opt-grid" id="moduleOpts">
-                    <span class="opt on" data-mod="story">双语故事</span>
-                    <span class="opt on" data-mod="quiz">课后习题</span>
-                    <span class="opt on" data-mod="courseware">教学课件</span>
-                    <span class="opt" data-mod="audio">发音资源</span>
+                  <div class="mode-card" data-mode="script" data-page-node-id="xIXdXsf5KpgWCL09vY80rJ">
+                    <span class="mc-ico" data-page-node-id="M5rYvHxmasMbragXOq3HUI">🎬</span>
+                    <div class="mc-t" data-page-node-id="7tULAfiMrNliDCBD0HP6EG">动画脚本创编</div>
+                    <div class="mc-d" data-page-node-id="HkSHRaenBEdGAm8i826vEW">分镜剪辑脚本<br data-page-node-id="G3FIT83xbGhbCKtQAIOd7K">角色设定 + 地域适配</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="sect">
-              <div class="sect-bd">
-                <button class="btn btn-primary gen-btn" id="btnGen">开始创编</button>
-                <div class="gen-sub" id="genSub">将依次调用标准化 Prompt 模板</div>
+            <div class="sect" data-page-node-id="qmWAdOQhir8qlZ4Vul9g9M">
+              <div class="sect-hd" data-page-node-id="hfS1Ot3q6IUDOLef0Pb6Y5"><h3 data-page-node-id="KrFi1u3Sz5CkiDN1jmm7Vv">教学适配参数</h3></div>
+              <div class="sect-bd" data-page-node-id="1wh9ih3yoX2JMlIwVuef1K">
+                <div class="field" data-page-node-id="uwFpG3aMi7KTopHW4LajzD">
+                  <label data-page-node-id="gKl8bknQoGZOcFVCkpv8PU">学习者 HSK 等级 <span class="hint" data-page-node-id="ueNYlpNlH91j7jU3viHDRE">动态调控文本难度</span></label>
+                  <div class="slider-row" data-page-node-id="rMfOyyet3edCeoNRclgzhM">
+                    <input type="range" id="hskRange" min="1" max="6" value="3" step="1" data-page-node-id="mb0ZSXvewMO69rFxBaHK2U">
+                    <span class="hsk-badge" id="hskBadge" data-page-node-id="c449F1ku1OSwK3gd98JIPM">3 级</span>
+                  </div>
+                  <div class="hsk-desc" id="hskDesc" data-page-node-id="UPBZSN4yKHSNIWfwDGIuCp"></div>
+                </div>
+
+                <div class="field" data-page-node-id="KOsJDOvh3npkxfTOUMxj1q">
+                  <label data-page-node-id="yvKCUond931AqzIQ8UZJPh">目标语种 <span class="hint" data-page-node-id="lyEp1AsxX74YoCdKakHNGR">双语叙事输出</span></label>
+                  <select id="langSel" data-page-node-id="aS8TEm5KK9jsxUinQYyQoY">
+                    <option value="English" data-page-node-id="dzGMvpdXb0Rl2UJi1ACkfE">English（英语）</option>
+                    <option value="Bahasa Indonesia" data-page-node-id="ybH4SPcQHF9T63Xda1BUxe">Bahasa Indonesia（印尼语）</option>
+                    <option value="ไทย" data-page-node-id="7YuBIBDOrTF6e6Vdn63N9c">ไทย（泰语）</option>
+                    <option value="Tiếng Việt" data-page-node-id="MHUgS5u4qQavNtyJIPNSfZ">Tiếng Việt（越南语）</option>
+                    <option value="日本語" data-page-node-id="RZWCZB97MSkNT3pUWd7UXm">日本語（日语）</option>
+                    <option value="한국어" data-page-node-id="hqc7yhB4Fz0FwgcI3kvRLw">한국어（韩语）</option>
+                    <option value="Русский" data-page-node-id="6ganV9NhghXceHtDJcwslv">Русский（俄语）</option>
+                    <option value="العربية" data-page-node-id="9UyiawAvFz4U1pPKbIXmae">العربية（阿拉伯语）</option>
+                    <option value="Español" data-page-node-id="mgFNSIZW5d6MrbP0MwmOQN">Español（西班牙语）</option>
+                    <option value="Français" data-page-node-id="MfqWPBbSeckiWdrmi0YgGW">Français（法语）</option>
+                  </select>
+                </div>
+
+                <div class="field" id="regionField" style="display:none" data-page-node-id="oS4JvmT90cGFpTbHxXvzQv">
+                  <label data-page-node-id="7TI0U1VL5zpEALAdZA47Cl">教学受众地域 <span class="hint" data-page-node-id="EXBfwqglIykrHCRE2lNGvp">跨文化视觉适配</span></label>
+                  <select id="regionSel" data-page-node-id="ad1ZvAykCRdeUit0uVW1jd">
+                    <option value="东南亚" data-page-node-id="ZJKn88CeAzkjacYCXMvkLq">东南亚（新马泰印尼越菲）</option>
+                    <option value="东亚汉字文化圈" data-page-node-id="WZMHwy1oyqLvkhiKNgds56">东亚汉字文化圈（日韩越）</option>
+                    <option value="欧美" data-page-node-id="hNtLzo7Acg8k8X38eTZOfZ">欧美（北美 / 西欧）</option>
+                    <option value="中东" data-page-node-id="w8Fwrq74PTNmIJQm8o6Euj">中东（海湾 / 北非）</option>
+                    <option value="拉美" data-page-node-id="goDZWLYY1jDzK5QLVJv9IK">拉美（巴西 / 西语区）</option>
+                    <option value="非洲" data-page-node-id="xxXR4KgbnbZQi8605UwVt2">非洲（撒哈拉以南）</option>
+                  </select>
+                </div>
+
+                <div class="field" data-page-node-id="KWuVVUAPwoEUD3G5pseqKL">
+                  <label data-page-node-id="U9jDVTH9RsgXRMxU0ubFRC">同时产出模块</label>
+                  <div class="opt-grid" id="moduleOpts" data-page-node-id="KV1WO4biky56fM0DDAe5nb">
+                    <span class="opt on" data-mod="story" data-page-node-id="a5hLzaJtjXfOs9v7ObzBYg">双语故事</span>
+                    <span class="opt on" data-mod="quiz" data-page-node-id="OxRYoTQ3OytCkr1tbcwsNz">课后习题</span>
+                    <span class="opt on" data-mod="courseware" data-page-node-id="jhfCXD8ydjZMhoEFK0TCyh">教学课件</span>
+                    <span class="opt" data-mod="audio" data-page-node-id="QK2e0H9xzhTyh6Bb1rT8vQ">发音资源</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="sect" data-page-node-id="NrEEJ0DjvEjcWjRoWO6RzU">
+              <div class="sect-bd" data-page-node-id="BV2zaP1XUsXPrThmaQRkMX">
+                <button class="btn btn-primary gen-btn" id="btnGen" data-page-node-id="DyRijCL0wqE3rBv88Hc82E">开始创编</button>
+                <div class="gen-sub" id="genSub" data-page-node-id="EpwKcYLWPcEZ5xEhlsZ1yx">将依次调用标准化 Prompt 模板</div>
               </div>
             </div>
           </div>
 
           <!-- 结果区 -->
-          <div class="sect">
-            <div class="sect-hd">
-              <h3 id="rhTitle">创编结果</h3>
-              <div class="sh-right">
-                <span class="src-tag" id="rhSrcTag">待生成</span>
-                <button class="btn btn-sm" id="btnExport" disabled>导出 JSON</button>
+          <div class="sect" data-page-node-id="0tkNAXKkJXV45dlSrOPr8K">
+            <div class="sect-hd" data-page-node-id="qCJpsVZw3GH1n3SeEzhHnI">
+              <h3 id="rhTitle" data-page-node-id="wRrN3AvOByxm0Y2Cq6SCKC">创编结果</h3>
+              <div class="sh-right" data-page-node-id="bfndFLsgiJlfp3ZFMiA714">
+                <span class="src-tag" id="rhSrcTag" data-page-node-id="ZXpsbfp6h3TXhmZk1lphFE">待生成</span>
+                <button class="btn btn-sm" id="btnExport" disabled data-page-node-id="oNOup1QFjHfT9LkxS4ZDfr">导出 JSON</button>
               </div>
             </div>
-            <nav class="tabs" id="tabs">
-              <div class="tab active" data-tab="story">文化故事</div>
-              <div class="tab" data-tab="script">动画脚本</div>
-              <div class="tab" data-tab="role">角色设定</div>
-              <div class="tab" data-tab="teach">习题 / 课件</div>
+            <nav class="tabs" id="tabs" data-page-node-id="VH5gXBUNa36QntMi9oSzoc">
+              <div class="tab active" data-tab="story" data-page-node-id="6JqDn6fkS0LjQUTXLG8lBl">文化故事</div>
+              <div class="tab" data-tab="script" data-page-node-id="4hQ37KAHX5Ed7VyDYL8PQt">动画脚本</div>
+              <div class="tab" data-tab="role" data-page-node-id="Zfit7EISrgbXVemVXAh2OI">角色设定</div>
+              <div class="tab" data-tab="teach" data-page-node-id="NuUEyoFqA30yyBppPGY1uU">习题 / 课件</div>
             </nav>
-            <div class="tab-body">
-              <div class="tab-pane active" id="pane-story"></div>
-              <div class="tab-pane" id="pane-script"></div>
-              <div class="tab-pane" id="pane-role"></div>
-              <div class="tab-pane" id="pane-teach"></div>
+            <div class="tab-body" data-page-node-id="9LJbblagPXkLhovx1bl88T">
+              <div class="tab-pane active" id="pane-story" data-page-node-id="ZeftyOzY85PpLXzT8ZKNS8"></div>
+              <div class="tab-pane" id="pane-script" data-page-node-id="jzvZTTpgHrzGAiigD3ucU4"></div>
+              <div class="tab-pane" id="pane-role" data-page-node-id="EcGKpT7qOZ5zLeWAkq2WM1"></div>
+              <div class="tab-pane" id="pane-teach" data-page-node-id="evWzwoeYlBrqTbrAdPDCCQ"></div>
             </div>
           </div>
         </div>
       </section>
 
       <!-- ---------- 视图：生成历史 ---------- -->
-      <section class="view" id="view-history">
-        <div class="page-hd">
-          <h2>生成历史</h2>
-          <p>仅记录调用大模型 API 的生成，含完整提示词与原始响应 · 保存在本地浏览器</p>
+      <section class="view" id="view-history" data-page-node-id="jD8gtkRPXpWe5wChnbIlCK">
+        <div class="page-hd" data-page-node-id="d8mP05xAy3fMsECdr28R4C">
+          <h2 data-page-node-id="AcYX3i9H5D1WPFtrES9t2C">生成历史</h2>
+          <p data-page-node-id="Wd2wdQpq0nFkqotI4MyhBt">仅记录调用大模型 API 的生成，含完整提示词与原始响应 · 保存在本地浏览器</p>
         </div>
-        <div class="sect">
-          <div class="sect-hd">
-            <h3>全部记录</h3><span class="sh-note" id="histCountNote">0 条</span>
-            <div class="sh-right">
-              <button class="btn btn-sm" id="btnExportHist">导出全部</button>
-              <button class="btn btn-sm btn-ghost" id="btnClearHist">清空</button>
+        <div class="sect" data-page-node-id="5LdvQ2HGchMkoOQuy8mGjC">
+          <div class="sect-hd" data-page-node-id="dqaCEFavGWLYzMqbFDLgnB">
+            <h3 data-page-node-id="pS7Sk0GIHlTpkuLahKiXF6">全部记录</h3><span class="sh-note" id="histCountNote" data-page-node-id="fOUI5qRlhl1E5IAzYRFQtL">0 条</span>
+            <div class="sh-right" data-page-node-id="8mMeNqd3v70drMkRaeYFN8">
+              <button class="btn btn-sm" id="btnExportHist" data-page-node-id="v14ltyFvOuJ9vVi0ROkHYa">导出全部</button>
+              <button class="btn btn-sm btn-ghost" id="btnClearHist" data-page-node-id="C0onUAj9QxgrCkaC8G1dnq">清空</button>
             </div>
           </div>
-          <div class="sect-bd tight" style="padding:13px 15px" id="histList"></div>
+          <div class="sect-bd tight" style="padding:13px 15px" id="histList" data-page-node-id="XpPPDgtOkape8iHxOPTZ0h"></div>
         </div>
       </section>
 
       <!-- ---------- 视图：Prompt 模板库 ---------- -->
-      <section class="view" id="view-tpl">
-        <div class="page-hd">
-          <h2>Prompt 模板库</h2>
-          <p>标准化多语种提示词模板 · 本地固定资产，<b>不消耗 Token</b></p>
+      <section class="view" id="view-tpl" data-page-node-id="9nhvHvlPBnKCX930CfxSid">
+        <div class="page-hd" data-page-node-id="I4CYoAQEnfOMz0EnCCZv6d">
+          <h2 data-page-node-id="PKp3UUv0Up7QndGAZWbcGZ">Prompt 模板库</h2>
+          <p data-page-node-id="2x9cUxuFIdqTX20oUhUbOz">标准化多语种提示词模板 · 本地固定资产，<b data-page-node-id="YksAtDMfB9i3aeAg8czrLE">不消耗 Token</b></p>
         </div>
-        <div id="tplBody"></div>
+        <div id="tplBody" data-page-node-id="wjybh9FugifahQ3LdVr4cr"></div>
       </section>
 
       <!-- ---------- 视图：性能评测 ---------- -->
-      <section class="view" id="view-perf">
-        <div class="page-hd">
-          <h2>性能评测</h2>
-          <p>响应速率与适配达标率基准数据 · 本地固定，实时数据来自本次会话实测</p>
+      <section class="view" id="view-perf" data-page-node-id="hoDhVhWHBwFevFkH6BgvG7">
+        <div class="page-hd" data-page-node-id="Qct2M8Nu8EJ5KntyabDo2R">
+          <h2 data-page-node-id="BTYCehOvSNa3FDE3Ld2z87">性能评测</h2>
+          <p data-page-node-id="Reo1jJHWMdO6P9UKCyqriH">响应速率与适配达标率基准数据 · 本地固定，实时数据来自本次会话实测</p>
         </div>
-        <div id="perfBody"></div>
+        <div id="perfBody" data-page-node-id="AFZ6hDmpXLY8C2PFo8fauf"></div>
       </section>
 
       <!-- ---------- 视图：设置 ---------- -->
-      <section class="view" id="view-settings">
-        <div class="page-hd">
-          <h2>模型与设置</h2>
-          <p>接口密钥仅保存在本地浏览器 localStorage，不会上传至任何服务器</p>
+      <section class="view" id="view-settings" data-page-node-id="4g80WVqot2ayQuen7mlICn">
+        <div class="page-hd" data-page-node-id="zpaNaC5CMKsnqqmuobWXDr">
+          <h2 data-page-node-id="hFe39HXI3UMD0HGAAtklIX">模型与设置</h2>
+          <p data-page-node-id="GGbwOvGBmSQqxKxwrecqV6">接口密钥仅保存在本地浏览器 localStorage，不会上传至任何服务器</p>
         </div>
 
-        <div class="sect">
-          <div class="sect-hd"><h3>服务商</h3><span class="sh-note">OpenAI 兼容协议</span></div>
-          <div class="sect-bd">
-            <div class="provider-grid" id="providerGrid">
-              <div class="provider" data-pv="deepseek"><div class="pv-n">DeepSeek</div><div class="pv-m">deepseek-chat</div></div>
-              <div class="provider" data-pv="qwen"><div class="pv-n">通义千问</div><div class="pv-m">qwen-plus</div></div>
-              <div class="provider" data-pv="moonshot"><div class="pv-n">Kimi</div><div class="pv-m">moonshot-v1</div></div>
-              <div class="provider" data-pv="openai"><div class="pv-n">OpenAI</div><div class="pv-m">gpt-4o-mini</div></div>
-              <div class="provider" data-pv="glm"><div class="pv-n">智谱 GLM</div><div class="pv-m">glm-4-flash</div></div>
-              <div class="provider" data-pv="custom"><div class="pv-n">自定义</div><div class="pv-m">任意兼容端点</div></div>
+        <div class="sect" data-page-node-id="tWyjpCnkGRKOYFFzPKSuCD">
+          <div class="sect-hd" data-page-node-id="Ys67uBeNHWr18QpAB7cAFK"><h3 data-page-node-id="XYEHYAbQ7L7uxQcs1emLuS">服务商</h3><span class="sh-note" data-page-node-id="NARMNBTpiPjExqA76lBxPY">OpenAI 兼容协议</span></div>
+          <div class="sect-bd" data-page-node-id="0fMvK2JAAiSwuwbYOWdsQ8">
+            <div class="provider-grid" id="providerGrid" data-page-node-id="8j6gA2o5GcS7MnvqiiFMeG">
+              <div class="provider" data-pv="deepseek" data-page-node-id="sfFAnyUwyoDoFPHurLUPaA"><div class="pv-n" data-page-node-id="WdHsL8nt6wXUq5mMrbpx57">DeepSeek</div><div class="pv-m" data-page-node-id="0wsUcykWdXMPJuzHuVGdlJ">deepseek-chat</div></div>
+              <div class="provider" data-pv="qwen" data-page-node-id="czi8yUBxJmQA4D80pGJKLw"><div class="pv-n" data-page-node-id="gZFffW30ZraX6HcLTIH2RF">通义千问</div><div class="pv-m" data-page-node-id="iMXnzSIiwVWBoBjkOx5CzG">qwen-plus</div></div>
+              <div class="provider" data-pv="moonshot" data-page-node-id="0EQSd73a3RczVPCBhlMaOM"><div class="pv-n" data-page-node-id="xoJX10HHhJCJHL9WrxR86L">Kimi</div><div class="pv-m" data-page-node-id="cEcQrdhjFg09wGbbBsXkPC">moonshot-v1</div></div>
+              <div class="provider" data-pv="openai" data-page-node-id="qxVALcs2HfBhLyGmWRaqxH"><div class="pv-n" data-page-node-id="ErdKA8WDfxvgRgUq9RGTff">OpenAI</div><div class="pv-m" data-page-node-id="VNoNyLzj4ZTkwFUeu99Era">gpt-4o-mini</div></div>
+              <div class="provider" data-pv="glm" data-page-node-id="fp29xfazGvnPMdxODGvSrz"><div class="pv-n" data-page-node-id="GFC0mMjONmWRDQNCnzQVfK">智谱 GLM</div><div class="pv-m" data-page-node-id="csa9Rk0eyWcUuOUDPw3ucA">glm-4-flash</div></div>
+              <div class="provider" data-pv="custom" data-page-node-id="ZHFuSj29ct16CCKB5ADbll"><div class="pv-n" data-page-node-id="FBCqEtdy0PpJsTveAiZInp">自定义</div><div class="pv-m" data-page-node-id="kFt2aTENcNHyCQd6ShodnA">任意兼容端点</div></div>
             </div>
           </div>
         </div>
 
-        <div class="sect">
-          <div class="sect-hd"><h3>连接参数</h3></div>
-          <div class="sect-bd">
-            <div class="split" style="grid-template-columns:1fr 1fr">
-              <div>
-                <div class="field"><label>Base URL</label>
-                  <input type="text" id="cfgUrl" placeholder="https://api.deepseek.com/v1"></div>
-                <div class="field"><label>API Key</label>
-                  <input type="password" id="cfgKey" placeholder="sk-..."></div>
-                <div class="field"><label>模型名称</label>
-                  <input type="text" id="cfgModel" placeholder="deepseek-chat"></div>
+        <div class="sect" data-page-node-id="OCIPHiJea0VjobXUQGy33z">
+          <div class="sect-hd" data-page-node-id="lIMZajSgFsNHGuhiOWOeDX"><h3 data-page-node-id="kXfE8rhH18T74B030KBAQU">连接参数</h3></div>
+          <div class="sect-bd" data-page-node-id="L46ajztJT1ijAA2yzLKdUi">
+            <div class="split" style="grid-template-columns:1fr 1fr" data-page-node-id="d498NCRhSil3mG8QbOll6r">
+              <div data-page-node-id="yIPLvDMPR4rpIOoHf2Y0tm">
+                <div class="field" data-page-node-id="Xa6YDwVzklJCOKdkdH3AUb"><label data-page-node-id="0BydOXQlPWtoV6XAV0g3Lq">Base URL</label>
+                  <input type="text" id="cfgUrl" placeholder="https://api.deepseek.com/v1" data-page-node-id="vuVBf9rKdJDm5MeFKKdiBH"></div>
+                <div class="field" data-page-node-id="mlG3QPXUMDCsuxj4W5yKDt"><label data-page-node-id="Hp9xPiGVPrtGdyOCiicTuz">API Key</label>
+                  <input type="password" id="cfgKey" placeholder="sk-..." data-page-node-id="Mrzo4dKewBX3q2c9GV9yHI"></div>
+                <div class="field" data-page-node-id="lkx8yHbRdY5RhsK4YJSkKj"><label data-page-node-id="yOQUSyHxti17TCrRv0hzrf">模型名称</label>
+                  <input type="text" id="cfgModel" placeholder="deepseek-chat" data-page-node-id="gtFEb00L7gglFSXb3Np2ta"></div>
               </div>
-              <div>
-                <div class="field"><label>生成温度 <span class="hint" id="tempVal">0.75</span></label>
-                  <input type="range" id="cfgTemp" min="0" max="120" value="75"></div>
-                <div class="field"><label>输出 JSON 严格度</label>
-                  <select id="cfgStrict">
-                    <option value="json_object">强制 JSON 模式（推荐）</option>
-                    <option value="text">纯文本模式（兼容性优先）</option>
+              <div data-page-node-id="Pe7XY8OXHrRKV6xrJGZ6nl">
+                <div class="field" data-page-node-id="cqEl75b4cU9LiawRSsXoMY"><label data-page-node-id="OovcIk8rWvP15Cas0FXQEH">生成温度 <span class="hint" id="tempVal" data-page-node-id="0J3MHFZCEWAeX9nzDDZZnt">0.75</span></label>
+                  <input type="range" id="cfgTemp" min="0" max="120" value="75" data-page-node-id="sfCWznK1BPVQHDT8w4YWh6"></div>
+                <div class="field" data-page-node-id="8eMbvZFCp9mvlIjxjhnJvS"><label data-page-node-id="17FuGaNuDPMahFNOCrSelx">输出 JSON 严格度</label>
+                  <select id="cfgStrict" data-page-node-id="hazPLdcwORYlQH0YUB2Ifl">
+                    <option value="json_object" data-page-node-id="TuCwNAcFBQzRb6eGoM4LLM">强制 JSON 模式（推荐）</option>
+                    <option value="text" data-page-node-id="gH0XLK2nIrv9TSiUnRATgq">纯文本模式（兼容性优先）</option>
                   </select></div>
-                <div class="alert alert-warn mt-12" style="display:block">
-                  <b>跨域说明：</b>主流厂商均已开放浏览器直连（CORS）。若自定义端点报 Network Error，多为服务端未放开跨域，需自行部署转发代理。未配置密钥时自动降级为内置演示数据。
+                <div class="alert alert-warn mt-12" style="display:block" data-page-node-id="RhAZ2OSJnnKEqX8TLSTkRQ">
+                  <b data-page-node-id="qeDd4qyYRNH2fgi3hqhoft">跨域说明：</b>主流厂商均已开放浏览器直连（CORS）。若自定义端点报 Network Error，多为服务端未放开跨域，需自行部署转发代理。未配置密钥时自动降级为内置演示数据。
                 </div>
               </div>
             </div>
-            <div style="display:flex;gap:8px;margin-top:6px">
-              <button class="btn" id="btnTestConn">测试连接</button>
-              <button class="btn btn-primary" id="btnSaveCfg">保存配置</button>
+            <div style="display:flex;gap:8px;margin-top:6px" data-page-node-id="cmBlBJLhJaBQpzxeKOZq60">
+              <button class="btn" id="btnTestConn" data-page-node-id="BMOQT3LwdcsL19qDYZQZrK">测试连接</button>
+              <button class="btn btn-primary" id="btnSaveCfg" data-page-node-id="Uh62gEa86xfJKo5Dl9NjtZ">保存配置</button>
             </div>
           </div>
         </div>
 
-        <div class="sect">
-          <div class="sect-hd"><h3>字形资源与数据来源</h3><span class="sh-note">Assets & Attribution</span></div>
-          <div class="sect-bd" id="assetBody"></div>
+        <div class="sect" data-page-node-id="WSvLBbL2XrUJGB65aiS1Ag">
+          <div class="sect-hd" data-page-node-id="WVs5iAxA1NirvHxNLjcCHF"><h3 data-page-node-id="dUaRKH6istIH0CSHC5G0RX">字形资源与数据来源</h3><span class="sh-note" data-page-node-id="2JN3XeRMD0LFLbbqqJojTr">Assets & Attribution</span></div>
+          <div class="sect-bd" id="assetBody" data-page-node-id="ZBAtswl3btpoRoGcxCwB5g"></div>
         </div>
       </section>
 
@@ -402,22 +327,22 @@
 </div>
 
 <!-- ===================== 历史抽屉 ===================== -->
-<div class="drawer-mask" id="drawerMask"></div>
-<aside class="hist-drawer" id="histDrawer">
-  <div class="hd-hd">
-    <h3>生成历史</h3>
-    <div class="hd-right">
-      <button class="btn btn-sm btn-ghost" id="btnCloseHist">关闭</button>
+<div class="drawer-mask" id="drawerMask" data-page-node-id="7N9HYy0JCzQPWNLzvLh25e"></div>
+<aside class="hist-drawer" id="histDrawer" data-page-node-id="4NEmwB5gL5ce4LTEBo6QHH">
+  <div class="hd-hd" data-page-node-id="jOFjYoBiz7uXTFOm1QpxWR">
+    <h3 data-page-node-id="iz96Qa8fe3FOjy1OsnKavM">生成历史</h3>
+    <div class="hd-right" data-page-node-id="FKTOUSNPuqEZJLLAJiG1Zy">
+      <button class="btn btn-sm btn-ghost" id="btnCloseHist" data-page-node-id="nwNMfiRVXJP55VfVtJFwIY">关闭</button>
     </div>
   </div>
-  <div class="hd-bd" id="histDrawerBody"></div>
-  <div class="hd-ft">
-    <button class="btn btn-sm" id="btnExportHist2" style="flex:1">导出 JSON</button>
-    <button class="btn btn-sm btn-ghost" id="btnClearHist2" style="flex:1">清空记录</button>
+  <div class="hd-bd" id="histDrawerBody" data-page-node-id="D4e48XlXYErAl6HAI3h7Jn"></div>
+  <div class="hd-ft" data-page-node-id="T5SHRmEA1npXKIfLeZrqSt">
+    <button class="btn btn-sm" id="btnExportHist2" style="flex:1" data-page-node-id="UGvxG5wrjWflH9E6TGJY2X">导出 JSON</button>
+    <button class="btn btn-sm btn-ghost" id="btnClearHist2" style="flex:1" data-page-node-id="bMvPaPxrW0OyzskNbVQacj">清空记录</button>
   </div>
 </aside>
 
-<div class="toast-host" id="toastHost"></div>
+<div class="toast-host" id="toastHost" data-page-node-id="FqlVhvgXPqS7U8q0jwnHen"></div>
 
 <script src="assets/glyph-index.js"></script>
 <script src="assets/ob-index.js"></script>

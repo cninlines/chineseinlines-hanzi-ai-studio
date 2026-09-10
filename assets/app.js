@@ -17,7 +17,7 @@
 
   /* ==================== 全局状态 ==================== */
   const S = {
-    route: "dash",
+    route: "etym",
     mode: "story",
     chars: ["我"],
     hsk: 3,
@@ -117,7 +117,6 @@
     refreshHistBadge();
     renderHistoryView();
     renderHistDrawer();
-    renderDashRecent();
     toast("历史记录已清空", "ok");
   }
   function refreshHistBadge() {
@@ -143,9 +142,8 @@
 
   /* ==================== 路由 ==================== */
   const ROUTES = {
-    dash:     { title: "工作台总览", sub: "多场景 AI 创编工作台" },
-    etym:     { title: "字源解析",   sub: "本义考据与五体字形演变" },
-    lineage:  { title: "字际系联",   sub: "字族关系网络" },
+    etym:     { title: "字源解析",   sub: "繁体溯源 · 古文字形 · 字际系联" },
+    lineage:  { title: "字源解析",   sub: "繁体溯源 · 古文字形 · 字际系联" }, // 旧路由兼容：重定向至 etym
     game:     { title: "字源游戏",   sub: "古字猜谜 · 部件拼字 · 声符字族" },
     author:   { title: "多场景创编", sub: "文化故事 / 动画脚本" },
     history:  { title: "生成历史",   sub: "API 调用记录与提示词回溯" },
@@ -155,7 +153,8 @@
   };
 
   function go(route, opt) {
-    if (!ROUTES[route]) route = "dash";
+    if (route === "lineage" || route === "dash") route = "etym"; // 系联已并入字源解析；总览已移除
+    if (!ROUTES[route]) route = "etym";
     S.route = route;
     qsa(".nav-item").forEach(el => el.classList.toggle("active", el.dataset.route === route));
     qsa(".view").forEach(el => el.classList.toggle("active", el.id === "view-" + route));
@@ -164,9 +163,7 @@
     $("crumbSub").textContent  = r.sub;
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (opt && opt.mode) setMode(opt.mode);
-    if (route === "dash") renderDash();
-    if (route === "etym") renderEtym();
-    if (route === "lineage") renderLineage();
+    if (route === "etym") renderEtym();   // 内含：繁体溯源 → 古文字形 → 本义 → 字际系联
     if (route === "game") renderGame();
     if (route === "history") renderHistoryView();
     if (route === "tpl") renderTpl();
@@ -203,7 +200,7 @@
       const r = _cl[k].rad; if (r) { (RAD_INDEX[r] = RAD_INDEX[r] || []).push(k); }
     }
 
-    go("dash");
+    go("etym");
     loadDemo();
   }
 
@@ -212,11 +209,10 @@
     qsa(".nav-item").forEach(el => {
       el.onclick = () => go(el.dataset.route);
     });
-    qsa(".quick-card[data-go]").forEach(el => {
+    qsa(".quick-card[data-go]:not([data-gt])").forEach(el => {
       el.onclick = () => go(el.dataset.go, { mode: el.dataset.mode });
     });
-    $("qcDemo").onclick = () => loadDemo();
-    $("dashChar").textContent = S.chars.join("");
+    const qd = $("qcDemo"); if (qd) qd.onclick = () => loadDemo();
   }
 
   /* ==================== 绑定：全局字输入 ==================== */
@@ -236,10 +232,8 @@
   function onCharChange() {
     clearTimeout(charTimer);
     charTimer = setTimeout(() => {
-      $("dashChar").textContent = S.chars.join("");
-      if (S.route === "etym") renderEtym();
-      if (S.route === "lineage") renderLineage();
-      if (S.route === "dash") renderDash();
+      const dc = $("dashChar"); if (dc) dc.textContent = S.chars.join("");
+      if (S.route === "etym" || S.route === "lineage") renderEtym();
     }, 220);
   }
 
@@ -358,55 +352,6 @@
     $("drawerMask").classList.remove("show");
   }
 
-  /* ==================== 视图：工作台总览 ==================== */
-  function renderDash() {
-    const ch = S.chars[0];
-    const gi = window.GLYPH_INDEX || {};
-    const av = availablePeriods(ch);
-    const nPeriod = Object.keys(av).length;
-    const rels = localRelations(ch);
-    const d = ETYMO_DICT[ch];
-
-    $("dashStats").innerHTML = `
-      <div class="stat-card">
-        <div class="stat-lbl">当前研究字</div>
-        <div class="stat-val" style="font-family:var(--serif)">${esc(S.chars.join(""))}</div>
-        <div class="stat-sub">${esc(d ? d.py : "—")} · ${esc(d ? d.liu : "待考")}</div>
-      </div>
-      <div class="stat-card sc-blue">
-        <div class="stat-lbl">古文字字形可用期</div>
-        <div class="stat-val">${nPeriod}<small>/5 体</small></div>
-        <div class="stat-sub">${Object.keys(av).map(k => PERIODS.find(p => p.key === k).name).join(" · ") || "无字形数据"}</div>
-      </div>
-      <div class="stat-card sc-green">
-        <div class="stat-lbl">字际系联关联字</div>
-        <div class="stat-val">${rels.length}<small>个</small></div>
-        <div class="stat-sub">${rels.length ? rels.map(r => r.target).join(" · ") : "本地语料未收录"}</div>
-      </div>
-      <div class="stat-card sc-gold">
-        <div class="stat-lbl">本地字库总收字</div>
-        <div class="stat-val">${Object.keys(window.CHARLIB || {}).length}<small>字</small></div>
-        <div class="stat-sub">结构拆解 · 拼音 · 六书推导</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-lbl">历史生成次数</div>
-        <div class="stat-val">${histLoad().length}<small>次</small></div>
-        <div class="stat-sub">仅统计 API 调用</div>
-      </div>`;
-
-    renderDashRecent();
-  }
-
-  function renderDashRecent() {
-    const list = histLoad().slice(0, 5);
-    if (!list.length) {
-      $("dashRecent").innerHTML = `<div class="empty"><div class="empty-glyphs">⟲</div>
-        <p>暂无 API 生成记录。配置模型接口并生成后，记录将自动出现在此处。</p></div>`;
-      return;
-    }
-    $("dashRecent").innerHTML = list.map(h => histItemHTML(h)).join("");
-    bindHistItems($("dashRecent"));
-  }
 
   /* ==================== 视图：字源解析 ==================== */
   function renderEtym() {
@@ -420,9 +365,40 @@
                : '<span class="src-tag local">未收录</span>');
 
     box.innerHTML = `
-      <div class="sect">
+      <div class="sec-nav" id="secNav">
+        <span class="sn-lbl">本页章节</span>
+        <button class="sn-chip" data-sec="sec-origin">① 正体溯源</button>
+        <button class="sn-chip" data-sec="sec-glyph">② 字形演变</button>
+        <button class="sn-chip" data-sec="sec-stroke">③ 笔顺演示</button>
+        <button class="sn-chip" data-sec="sec-meaning">④ 本义与六书</button>
+        <button class="sn-chip" data-sec="sec-lineage">⑤ 字际系联</button>
+      </div>
+
+      <div class="sect" id="sec-origin">
         <div class="sect-hd">
-          <h3>字形演变 <span class="sh-note">Glyph Evolution · 5 体</span></h3>
+          <h3>正体溯源 <span class="sh-note">Back to the Original Form</span></h3>
+          <div class="sh-right"><span class="src-tag local">解析起点 · 本地固定</span></div>
+        </div>
+        <div class="sect-bd">
+          <div class="trad-card">
+            <div class="trad-line">
+              <span class="big-glyph" style="font-size:40px">${esc(ch)}</span>
+              <span class="trad-arrow">→</span>
+              <span class="big-glyph" style="font-size:40px">${esc(e.traditional || ch)}</span>
+            </div>
+            <p class="text-sm text-muted" style="margin-top:12px">${
+              e.traditional
+                ? `「${esc(ch)}」是「${esc(e.traditional)}」的简化字。本页以下所有字形、笔顺、说文段与系联网络，一律先回归正体「${esc(e.traditional)}」再展开考据。`
+                : `「${esc(ch)}」传承字形即为正体，未见简化关系。以下直接由其古文字形入手考据。`
+            }</p>
+          </div>
+          <p class="gt-note">溯源规则：凡该字存在繁体正体，先追溯正体，再查《说文解字》、结构字库与甲金篆字形；无繁体者径由古文字形入手。</p>
+        </div>
+      </div>
+
+      <div class="sect" id="sec-glyph">
+        <div class="sect-hd">
+          <h3>字形演变 <span class="sh-note">Glyph Evolution · 5 体${e.traditional ? " · 按正体 " + esc(e.traditional) : ""}</span></h3>
           <div class="sh-right"><span class="src-tag local">本地固定 · 不消耗 Token</span></div>
         </div>
         <div class="sect-bd">
@@ -438,7 +414,7 @@
         </div>
       </div>
 
-      <div class="sect">
+      <div class="sect" id="sec-stroke">
         <div class="sect-hd">
           <h3>笔顺演示 <span class="sh-note">Stroke Order</span></h3>
           <div class="sh-right"><span class="src-tag ai">hanzi-writer · CDN</span></div>
@@ -459,7 +435,7 @@
         </div>
       </div>
 
-      <div class="sect">
+      <div class="sect" id="sec-meaning">
         <div class="sect-hd"><h3>本义与六书</h3><div class="sh-right">${srcTag}</div></div>
         <div class="sect-bd">
           <div class="etymo-card">
@@ -493,14 +469,6 @@
           <div class="grid-2">${(e.components || []).map(c => `
             <div class="card acc-cin"><h4>${esc(c.part)} · <span class="text-muted" style="font-weight:400">${esc(c.role)}</span></h4>
             <p>${esc(c.gloss)}</p></div>`).join("") || `<p class="text-sm text-muted">暂无构件数据</p>`}</div>
-          ${e.traditional ? `
-          <div class="sec-title mt-16">繁体溯源 <span class="st-note">Traditional Form</span></div>
-          <div class="card acc-ind trad-card"><div class="trad-line">
-            <span class="big-glyph" style="font-size:36px">${esc(ch)}</span>
-            <span class="trad-arrow">→</span>
-            <span class="big-glyph" style="font-size:36px">${esc(e.traditional)}</span>
-          </div>
-          <p class="text-sm text-muted" style="margin-top:10px">「${esc(ch)}」为「${esc(e.traditional)}」的简化字。</p></div>` : ""}
           ${e.shuowen ? `
           <div class="sec-title mt-16">《说文解字》 <span class="st-note">Shuōwén Jiězì · ${esc(e.shuowen.sixBooks || "")}</span></div>
           <div class="card acc-cin"><p class="font-serif-cn" style="line-height:1.95;font-size:15px">${esc(e.shuowen.shuowen || e.shuowen.summary || "")}</p></div>` : ""}
@@ -515,6 +483,20 @@
 
     loadGlyphTimeline(ch, e.traditional || null);
     initStroke(ch, e.traditional || null);
+    renderLineage(ch, e.traditional || null);   // 回归正体之后再展开系联
+    bindSecNav();
+  }
+
+  // 章节快速跳转：页面较长时便于在「溯源 → 字形 → 笔顺 → 本义 → 系联」之间移动
+  function bindSecNav() {
+    qsa("#secNav .sn-chip").forEach(btn => {
+      btn.onclick = () => {
+        const t = $(btn.dataset.sec);
+        if (!t) return;
+        const y = t.getBoundingClientRect().top + window.pageYOffset - 72;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      };
+    });
   }
 
   // 黑块检测：填充型字形若渲染后近全黑(>75%)，判定为异常字形，隐藏并提示，避免出现"一大片黑色"
@@ -881,18 +863,51 @@
   }
 
   /* ==================== 视图：字际系联 ==================== */
-  function renderLineage() {
-    const ch = S.chars[0];
-    const rels = localRelations(ch);
-    $("lineageBody").innerHTML = `
-      <div class="sect">
+  function renderLineage(ch, trad) {
+    ch = ch || S.chars[0];
+    const box = $("lineageBody");
+    if (!box) return;
+    // 溯源优先：系联以繁体正体为枢纽展开，正体无关联时再回退到今字
+    const root = trad || (window.SIMPTRAD || {})[ch] || ch;
+    let rels = localRelations(root);
+    let hub = root;
+    if ((!rels || !rels.length) && root !== ch) { rels = localRelations(ch); hub = ch; }
+    const n = (rels || []).length;
+    box.innerHTML = `
+      <div class="sect" id="sec-lineage">
         <div class="sect-hd">
-          <h3>关系网络 <span class="sh-note">Relation Network</span></h3>
+          <h3>字际系联 <span class="sh-note">Relation Network</span></h3>
           <div class="sh-right"><span class="src-tag local">本地固定 · 不消耗 Token</span></div>
         </div>
-        <div class="sect-bd"><div id="lineageGraph"></div></div>
+        <div class="sect-bd">
+          <p class="gt-note" style="margin:0 0 12px">系联枢纽：<b class="font-serif-cn">${esc(hub)}</b>${
+            hub !== ch ? `（「${esc(ch)}」的正体）` : ""
+          } · 共 ${n} 组关系。同源、构件孳乳与形声孳乳均按正体字族推导。</p>
+          <div id="lineageGraph"></div>
+          <div class="sec-title mt-16">随堂巩固 <span class="st-note">Practice</span></div>
+          <div class="quick-grid">
+            <div class="quick-card" data-go="game" data-gt="glyph">
+              <div class="qc-ico">甲</div>
+              <div class="qc-t">古字猜谜</div>
+              <div class="qc-d">看甲金篆字形猜今字，7161 字题库</div>
+            </div>
+            <div class="quick-card" data-go="game" data-gt="build">
+              <div class="qc-ico">拼</div>
+              <div class="qc-t">部件拼字</div>
+              <div class="qc-d">用构件拼出目标字，8619 字题库</div>
+            </div>
+            <div class="quick-card" data-go="game" data-gt="series">
+              <div class="qc-ico">族</div>
+              <div class="qc-t">声符字族</div>
+              <div class="qc-d">同声符字族归类，636 族</div>
+            </div>
+          </div>
+        </div>
       </div>`;
-    renderGraph(rels, ch, "lineageGraph");
+    renderGraph(rels, hub, "lineageGraph");
+    qsa(".quick-card[data-go='game']", box).forEach(el => {
+      el.onclick = () => { GAME.tab = el.dataset.gt || GAME.tab; GAME.state = {}; go("game"); };
+    });
   }
 
   /* ==================== 本地兜底数据构造 ==================== */
@@ -1635,7 +1650,7 @@
     S.chars = ["我"];
     $("charInput").value = "我";
     $("charCount").textContent = "1/4";
-    $("dashChar").textContent = "我";
+    const dc = $("dashChar"); if (dc) dc.textContent = "我";
     S.result = {
       char: "我", chars: ["我"], hsk: 3, lang: "English", mode: S.mode,
       etymology: DEMO_CORPUS["我"].etymology,
@@ -1657,9 +1672,7 @@
     const tag = $("rhSrcTag");
     tag.textContent = "内置演示数据";
     tag.className = "src-tag local";
-    if (S.route === "dash") renderDash();
-    if (S.route === "etym") renderEtym();
-    if (S.route === "lineage") renderLineage();
+    if (S.route === "etym" || S.route === "lineage") renderEtym();
     toast("已载入「我」字族内置演示样例", "ok");
   }
 

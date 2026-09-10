@@ -1091,6 +1091,22 @@ hr.div { border: none; border-top: 1px solid var(--line-2); margin: 16px 0; }
   content: ""; position: absolute; left: 50%; bottom: -7px; transform: translateX(-50%);
   width: 46px; height: 1px; background: var(--line);
 }
+/* ---------- 章节快速跳转条 ---------- */
+.sec-nav {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 7px;
+  padding: 9px 12px; margin-bottom: 14px;
+  background: #fff; border: 1px solid var(--line); border-radius: 10px;
+  position: sticky; top: 0; z-index: 6;
+}
+.sec-nav .sn-lbl { font-size: 11.5px; color: var(--ink-3); margin-right: 2px; letter-spacing: .04em; }
+.sec-nav .sn-chip {
+  font: inherit; font-size: 12.5px; cursor: pointer;
+  padding: 5px 11px; border-radius: 999px;
+  border: 1px solid var(--line); background: #FCFBF8; color: var(--ink-2);
+  transition: all .16s;
+}
+.sec-nav .sn-chip:hover { background: #F3EEE3; border-color: var(--cinnabar); color: var(--cinnabar); }
+
 /* ---------- 字源游戏 ---------- */
 .game-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
 .g-tab {
